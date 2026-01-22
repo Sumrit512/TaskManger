@@ -33,12 +33,17 @@ useEffect(() => {
 }, []);
 
 
-  const logoutUser = async () => {
-    await logout();
-    localStorage.removeItem("accessToken");
-    setUser(null);
-    window.location.href = "/login";
-  };
+const logoutUser = async () => {
+  await logout();
+
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
+
+  document.cookie = "accessToken=; path=/; max-age=0";
+  document.cookie = "refreshToken=; path=/; max-age=0";
+
+  window.location.href = "/login";
+};
 
 
 

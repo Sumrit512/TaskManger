@@ -44,9 +44,12 @@ export default function LoginPage() {
     try {
       setLoading(true);
       const res = await login(email, password);
+document.cookie = `accessToken=${res.data.accessToken}; path=/; max-age=86400; secure; samesite=lax`;
+document.cookie = `refreshToken=${res.data.refreshToken}; path=/; max-age=604800; secure; samesite=lax`;
 
-      localStorage.setItem("accessToken", res.data.accessToken);
-      localStorage.setItem("refreshToken", res.data.refreshToken);
+localStorage.setItem("accessToken", res.data.accessToken);
+localStorage.setItem("refreshToken", res.data.refreshToken);
+
 
       toast.success("Login successful");
     

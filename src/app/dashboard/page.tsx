@@ -21,7 +21,7 @@ import TaskCardSkeleton from "@/components/TaskCardSkeleton";
 
 
 export default function Dashboard() {
-  const { user, logoutUser } = useAuth();
+const { user, logoutUser, loading: authLoading } = useAuth();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
@@ -98,8 +98,7 @@ const hasPrevPage = page > 1;
   //   );
   // }
  
-
-if (loading) {
+if (authLoading) {
   return (
     <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
       Checking authentication...
@@ -107,11 +106,12 @@ if (loading) {
   );
 }
 
+
+
 if (!user) {
   router.replace("/login");
   return null;
 }
-
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-white">
