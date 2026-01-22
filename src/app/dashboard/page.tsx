@@ -16,6 +16,10 @@ import CustomSelect from "@/components/CustomSelect";
 import TaskCardSkeleton from "@/components/TaskCardSkeleton";
 
 
+
+
+
+
 export default function Dashboard() {
   const { user, logoutUser } = useAuth();
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -93,7 +97,21 @@ const hasPrevPage = page > 1;
   //     </div>
   //   );
   // }
-   if (!user) return null;
+ 
+
+if (loading) {
+  return (
+    <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
+      Checking authentication...
+    </div>
+  );
+}
+
+if (!user) {
+  router.replace("/login");
+  return null;
+}
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-white">
