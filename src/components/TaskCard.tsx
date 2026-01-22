@@ -6,6 +6,8 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import EditTaskModal from "./EditTaskModal";
+import { CheckCircle, RotateCcw, Pencil, Trash2 } from "lucide-react";
+
 
 
 export default function TaskCard({
@@ -175,29 +177,48 @@ return (
       </div>
 
       {/* RIGHT SIDE ACTIONS */}
-      <div className="flex sm:flex-col gap-2 sm:min-w-[110px]">
-        <button
-          onClick={handleToggle}
-          className="flex-1 px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 transition"
-        >
-          {task.status === "COMPLETED" ? "Undo" : "Complete"}
-        </button>
+      <div className="flex sm:flex-col gap-2 items-center sm:min-w-[56px]">
 
-        <button
-     onClick={() => onEdit(task)}
-          className="flex-1 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 transition"
-        >
-          Edit
-        </button>
+  {/* TOGGLE STATUS */}
+  <button
+    onClick={handleToggle}
+    title={task.status === "COMPLETED" ? "Mark as pending" : "Mark as completed"}
+    className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 transition"
+  >
+    {task.status === "COMPLETED" ? (
+      <RotateCcw size={18} />
+    ) : (
+      <CheckCircle size={18} />
+    )}
+  </button>
 
-       <button
-  onClick={() => onDelete(task)}
-  className="px-3 py-1.5 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition"
->
-  Delete
-</button>
+  {/* EDIT */}
+  <div className="group relative">
+    <button
+    onClick={() => onEdit(task)}
+    title="Edit task"
+    className="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition"
+  >
+    <Pencil size={18} />
+  </button>
 
-      </div>
+  <span className="absolute right-full mr-2 top-1/2 -translate-y-1/2 scale-0 group-hover:scale-100 transition text-xs bg-black px-2 py-1 rounded text-white">
+    Edit
+  </span>
+</div>
+
+
+  {/* DELETE */}
+  <button
+    onClick={() => onDelete(task)}
+    title="Delete task"
+    className="p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition"
+  >
+    <Trash2 size={18} />
+  </button>
+
+</div>
+
     </div>
     <AnimatePresence>
   {showEdit && (
