@@ -6,12 +6,17 @@ import toast from "react-hot-toast";
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+
+
+
 
 
 
 
 export default function LoginPage() {
-  
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -44,7 +49,8 @@ export default function LoginPage() {
       localStorage.setItem("refreshToken", res.data.refreshToken);
 
       toast.success("Login successful");
-      window.location.href = "/dashboard";
+    
+router.push("/dashboard");
     } catch {
       toast.error("Invalid credentials");
     } finally {
