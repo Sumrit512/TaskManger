@@ -58,6 +58,8 @@ export default function TaskCard({
     task.dueDate &&
     new Date(task.dueDate) < new Date() &&
     task.status === "PENDING";
+    const isCompleted = task.status === "COMPLETED";
+
 
   const priorityStyle =
     task.priority === "HIGH"
@@ -133,10 +135,25 @@ export default function TaskCard({
 
 return (
   <div
-    className={`bg-white/5 backdrop-blur border border-white/10 rounded-xl p-4 transition hover:bg-white/10 ${
-      isOverdue ? "border-red-500/30" : ""
-    }`}
-  >
+  className={`relative overflow-hidden backdrop-blur rounded-xl p-4 transition-all duration-300
+
+  ${
+    isCompleted
+      ? "bg-emerald-500/10 border border-emerald-500/30"
+      : "bg-white/5 border border-white/10 hover:bg-white/10"
+  }
+
+  ${isOverdue && !isCompleted ? "border-red-500/30" : ""}
+`}
+>
+  {isCompleted && (
+  <CheckCircle
+    size={140}
+    className="absolute -right-6 -bottom-6 text-emerald-500/10 rotate-12 pointer-events-none"
+  />
+)}
+
+
     {/* HEADER ROW */}
     <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
 
@@ -145,13 +162,25 @@ return (
 
         {/* TITLE + BADGES */}
         <div className="flex flex-wrap items-center gap-2">
-          <h3 className="font-semibold text-base">{task.title}</h3>
+          <h3
+  className={`font-semibold text-base transition ${
+    isCompleted ? "line-through text-emerald-200/70" : ""
+  }`}
+>
+  {task.title}
+</h3>
 
-          <span
-            className={`text-xs px-2 py-1 rounded-full border ${priorityStyle}`}
-          >
-            {task.priority}
-          </span>
+
+        <span
+  className={`text-xs px-2 py-1 rounded-full border transition ${
+    isCompleted
+      ? "bg-emerald-500/10 text-emerald-300 border-emerald-500/30"
+      : priorityStyle
+  }`}
+>
+  {isCompleted ? "COMPLETED" : task.priority}
+</span>
+
 
           {isOverdue && (
             <span className="text-xs px-2 py-1 rounded-full bg-red-500/10 text-red-400 border border-red-500/30">
@@ -161,7 +190,14 @@ return (
         </div>
 
         {task.description && (
-          <p className="text-sm text-slate-400">{task.description}</p>
+         <p
+  className={`text-sm transition ${
+    isCompleted ? "text-emerald-200/50" : "text-slate-400"
+  }`}
+>
+  {task.description}
+</p>
+
         )}
 
         {task.dueDate && (
